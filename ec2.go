@@ -50,8 +50,8 @@ func main() {
         var dp = resp.Datapoints[0]
 
         fmt.Print("aws.ec2.", hostname, ".", metrics[index], ".average")
-        fmt.Print(" ", *dp.Average)
-        fmt.Print(" ", dp.Timestamp.Unix(), "\n")
+        fmt.Print("\t", *dp.Average)
+        fmt.Print("\t", dp.Timestamp.Unix(), "\n")
     }
 }
 
