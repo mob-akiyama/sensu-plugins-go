@@ -31,11 +31,14 @@ func main() {
         Value: aws.String(getInstanceID()),
     }
 
+    var et = time.Now().Add(time.Duration(-*fetch_age) * time.Second)
+    var st = et.Add(time.Duration(-*fetch_age) * time.Second)
+
     for index := range metrics {
         mt := &cloudwatch.GetMetricStatisticsInput{
             Dimensions: []cloudwatch.Dimension{*dimensionParam},
-            StartTime:  time.Now().Add(time.Duration(-*fetch_age) * time.Second),
-            EndTime:    time.Now(),
+            StartTime:  st,
+            EndTime:    et,
             MetricName: aws.String(metrics[index]),
             Namespace:  aws.String("AWS/EC2"),
             Period:     aws.Integer(300),
