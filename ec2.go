@@ -46,11 +46,13 @@ func main() {
             Statistics: []string{"Average"},
         }
         resp, _ := cw.GetMetricStatistics(mt)
-        var dp = resp.Datapoints[0]
 
-        fmt.Print("aws.ec2.", hostname, ".", metrics[index], ".average")
-        fmt.Print("\t", *dp.Average)
-        fmt.Print("\t", dp.Timestamp.Unix(), "\n")
+        if len(resp.Datapoints) > 0 {
+            var dp = resp.Datapoints[0]
+            fmt.Print("aws.ec2.", hostname, ".", metrics[index], ".average")
+            fmt.Print("\t", *dp.Average)
+            fmt.Print("\t", dp.Timestamp.Unix(), "\n")
+        }
     }
 }
 
