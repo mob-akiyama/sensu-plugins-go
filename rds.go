@@ -56,7 +56,7 @@ func main() {
 
         if len(resp.Datapoints) > 0 {
             var dp = resp.Datapoints[0]
-            fmt.Print("aws.rds.", rds_name, ".", metrics[index], ".average")
+            fmt.Print("aws.rds.", *rds_name, ".", metrics[index], ".average")
             fmt.Print("\t", *dp.Average)
             fmt.Print("\t", dp.Timestamp.Unix(), "\n")
         }
