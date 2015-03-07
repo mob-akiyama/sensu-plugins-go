@@ -25,6 +25,6 @@ func getRegion() string {
 }
 
 func main() {
-    fmt.Println(getInstanceID())
+    fmt.Println(getInstanceID()[0])
     fmt.Println(getRegion())
 }
