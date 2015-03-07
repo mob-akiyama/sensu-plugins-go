@@ -42,7 +42,7 @@ func main() {
             Statistics: []string{"Average"},
         }
         resp, _ := cw.GetMetricStatistics(mt)
-        fmt.Print(*resp.Datapoints[0].Average)
+        fmt.Print(*resp.Datapoints[0].Average, "\n")
     }
 }
 
