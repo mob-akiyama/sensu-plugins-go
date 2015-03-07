@@ -51,7 +51,7 @@ func main() {
 
         fmt.Print("aws.ec2.", hostname, ".", metrics[index], ".average")
         fmt.Print(" ", *dp.Average)
-        fmt.Print(" ", string(dp.Timestamp.Unix()), "\n")
+        fmt.Print(" ", dp.Timestamp.Unix(), "\n")
     }
 }
 
