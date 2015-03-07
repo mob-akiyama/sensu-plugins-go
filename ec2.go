@@ -16,6 +16,13 @@ func main() {
     var fetch_age      = flag.Int("f", 300, "How long ago to fetch metrics for")
     flag.Parse()
 
+    var metrics = [...]string{
+        "CPUUtilization",
+        "StatusCheckFailed",
+        "StatusCheckFailed_Instance",
+        "StatusCheckFailed_System",
+    }
+
     var creds = aws.Creds(*aws_access_key, *aws_secret_key, "")
     var cw    = cloudwatch.New(creds, getRegion(), nil)
 
@@ -23,17 +30,20 @@ func main() {
         Name:  aws.String("InstanceId"),
         Value: aws.String(getInstanceID()),
     }
-    mt := &cloudwatch.GetMetricStatisticsInput{
-        Dimensions: []cloudwatch.Dimension{*dimensionParam},
-        StartTime:  time.Now().Add(time.Duration(-*fetch_age) * time.Second),
-        EndTime:    time.Now(),
-        MetricName: aws.String("CPUUtilization"),
-        Namespace:  aws.String("AWS/EC2"),
-        Period:     aws.Integer(300),
-        Statistics: []string{"Average"},
+
+    for index := range metrics {
+        mt := &cloudwatch.GetMetricStatisticsInput{
+            Dimensions: []cloudwatch.Dimension{*dimensionParam},
+            StartTime:  time.Now().Add(time.Duration(-*fetch_age) * time.Second),
+            EndTime:    time.Now(),
+            MetricName: aws.String(metrics[index]),
+            Namespace:  aws.String("AWS/EC2"),
+            Period:     aws.Integer(300),
+            Statistics: []string{"Average"},
+        }
+        resp, _ := cw.GetMetricStatistics(mt)
+        fmt.Print(*resp.Datapoints[0].Average)
     }
-    resp, _ := cw.GetMetricStatistics(mt)
-    fmt.Print(*resp.Datapoints[0].Average)
 }
 
 func getInstanceID() string {
