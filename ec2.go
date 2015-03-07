@@ -1,14 +1,14 @@
 package main
 
 import (
-  "os"
-  "fmt"
-  "time"
-  "flag"
-  "net/http"
-  "io/ioutil"
-  "github.com/awslabs/aws-sdk-go/aws"
-  "github.com/awslabs/aws-sdk-go/gen/cloudwatch"
+    "os"
+    "fmt"
+    "time"
+    "flag"
+    "net/http"
+    "io/ioutil"
+    "github.com/awslabs/aws-sdk-go/aws"
+    "github.com/awslabs/aws-sdk-go/gen/cloudwatch"
 )
 
 func main() {
@@ -17,22 +17,21 @@ func main() {
     var fetch_age      = flag.Int("f", 300, "How long ago to fetch metrics for")
     flag.Parse()
 
-    var hostname, _ = os.Hostname()
+    var creds = aws.Creds(*aws_access_key, *aws_secret_key, "")
+    var cw    = cloudwatch.New(creds, getRegion(), nil)
+
     var metrics = [...]string{
         "CPUUtilization",
         "StatusCheckFailed",
         "StatusCheckFailed_Instance",
         "StatusCheckFailed_System",
     }
-
-    var creds = aws.Creds(*aws_access_key, *aws_secret_key, "")
-    var cw    = cloudwatch.New(creds, getRegion(), nil)
-
     var dimensionParam = &cloudwatch.Dimension{
         Name:  aws.String("InstanceId"),
         Value: aws.String(getInstanceID()),
     }
 
+    var hostname, _ = os.Hostname()
     var et = time.Now().Add(time.Duration(-*fetch_age) * time.Second)
     var st = et.Add(time.Duration(-*fetch_age) * time.Second)
 
