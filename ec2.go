@@ -1,6 +1,7 @@
 package main
 
 import (
+  "os"
   "fmt"
   "time"
   "flag"
@@ -16,6 +17,7 @@ func main() {
     var fetch_age      = flag.Int("f", 300, "How long ago to fetch metrics for")
     flag.Parse()
 
+    var hostname, _ = os.Hostname()
     var metrics = [...]string{
         "CPUUtilization",
         "StatusCheckFailed",
@@ -46,6 +48,7 @@ func main() {
         }
         resp, _ := cw.GetMetricStatistics(mt)
         fmt.Print(*resp.Datapoints[0].Average, "\n")
+        fmt.Print("aws.ec2.", hostname, ".", metrics[index], "average\n")
     }
 }
 
