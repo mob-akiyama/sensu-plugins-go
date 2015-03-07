@@ -42,8 +42,6 @@ func main() {
     var duration = -1 * time.Duration(*fetch_age) * time.Second
     var et = time.Now().Add(duration)
     var st = et.Add(duration)
-    fmt.Println(st)
-    fmt.Println(et)
 
     for index := range metrics {
         mt := &cloudwatch.GetMetricStatisticsInput{
