@@ -4,5 +4,8 @@ import "fmt"
 import "time"
 
 func main() {
-    fmt.Println(time.Now().Unix())
+    t := time.Now()
+    fmt.Println(t)
+    fmt.Println(t.Add(-600 * time.Second))
+    fmt.Println(t)
 }
