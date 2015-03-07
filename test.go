@@ -1,10 +1,8 @@
 package main
 
-import "fmt"
+import "fmt" 
+import "time"
 
 func main() {
-    var slice = [...]string{"Penn","Teller"}
-    for index := range slice {
-        fmt.Print(slice[index])
-    }
+    fmt.Println(time.Now().Unix())
 }
