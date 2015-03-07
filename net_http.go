@@ -21,7 +21,7 @@ func getRegion() string {
     defer resp.Body.Close()
   
     byteArray, _ := ioutil.ReadAll(resp.Body)
-    return string(byteArray)
+    return string(byteArray[0:len(byteArray)-1])
 }
 
 func main() {
