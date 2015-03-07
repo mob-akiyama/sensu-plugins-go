@@ -4,15 +4,19 @@ import (
   "fmt"
   "os"
   "time"
+  "flag"
   "github.com/awslabs/aws-sdk-go/aws"
   "github.com/awslabs/aws-sdk-go/gen/cloudwatch"
 )
 
-var accessKey      = os.Getenv("AWS_ACCESS_KEY")
-var secretKey      = os.Getenv("AWS_SECRET_KEY")
+var aws_access_key = flag.String("a", nil, "AWS API KEY")
+var aws_secret_key = flag.String("k", nil, "AWS API SECRET")
+var fetch_age      = flag.Int("f", nil, "How long ago to fetch metrics for")
+flag.Parse()
+
 var defaultRegion  = os.Getenv("EC2_REGION")
 var instanceId     = os.Getenv("EC2_INSTANCE_ID")
-var creds          = aws.Creds(accessKey, secretKey, "")
+var creds          = aws.Creds(aws_access_key, aws_secret_key, "")
 var cli            = cloudwatch.New(creds, defaultRegion, nil)
 var dimensionParam = &cloudwatch.Dimension{
     Name:  aws.String("InstanceId"),
